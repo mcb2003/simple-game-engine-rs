@@ -1,0 +1,10 @@
+[package]
+name = "audio-game-engine"
+version = "0.1.0"
+authors = ["mcb2003 <mikeybuchan@hotmail.co.uk>"]
+edition = "2018"
+
+[dependencies]
+sdl2 = "0.34.3"
+tts = "0.6.0"
+rodio = "0.11.0"
