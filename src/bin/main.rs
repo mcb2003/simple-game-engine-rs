@@ -25,11 +25,7 @@ impl Application for App {
         if self.col == 0 || self.col == 255 {
             self.flipper = !self.flipper;
         }
-        canvas.set_draw_color(Color::RGB(
-            self.col,
-            self.col,
-            self.col,
-        ));
+        canvas.set_draw_color(Color::RGB(self.col, self.col, self.col));
         canvas.clear();
         if !self.flipper {
             self.col -= 1;
