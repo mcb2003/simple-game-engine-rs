@@ -77,7 +77,11 @@ impl<'a> Engine<'a> {
             if time_acc >= 1.0 {
                 let fps = fps_acc / fps_counter as f64;
                 let title = format!("{} ({} FPS)", self.title, fps.round() as u32);
-                self.canvas.window_mut().set_title(title.as_str());
+                // This fails silently on error
+                self.canvas
+                    .window_mut()
+                    .set_title(title.as_str())
+                    .unwrap_or(());
                 time_acc -= 1.0;
                 fps_acc = 0.0;
                 fps_counter = 0;
