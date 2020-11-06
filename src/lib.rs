@@ -1,13 +1,13 @@
 use std::error::Error;
 
-use sdl2::event::Event;
-use sdl2::render::Canvas;
-use sdl2::video::Window;
+use sdl2::{event::Event, render::Canvas, video::Window};
+
+pub use sdl2::{
+    pixels::Color,
+    rect::{Point, Rect},
+};
 
 pub type WindowCanvas = Canvas<Window>;
-pub use sdl2::pixels::Color;
-pub use sdl2::rect::Point;
-pub use sdl2::rect::Rect;
 
 pub trait Application {
     fn on_update(
@@ -77,7 +77,7 @@ impl<'a> Engine<'a> {
             if time_acc >= 1.0 {
                 let fps = fps_acc / fps_counter as f64;
                 let title = format!("{} ({} FPS)", self.title, fps.round() as u32);
-                self.canvas.window_mut().set_title(title.as_str());
+                self.canvas.window_mut().set_title(title.as_str()).unwrap_or(()); // Fail silently
                 time_acc -= 1.0;
                 fps_acc = 0.0;
                 fps_counter = 0;
