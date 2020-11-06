@@ -23,7 +23,7 @@ pub struct Engine<'a> {
     ctx: sdl2::Sdl,
     video: sdl2::VideoSubsystem,
     timer: sdl2::TimerSubsystem,
-    canvas: Canvas<Window>,
+    canvas: WindowCanvas,
 }
 
 impl<'a> Engine<'a> {
@@ -65,12 +65,12 @@ impl<'a> Engine<'a> {
         // Event handling
         let mut event_pump = self.ctx.event_pump()?;
         loop {
+            // Calculate and display FPS
             last = now;
             now = self.timer.performance_counter();
-            elapsed_time = (now - last) as f64 / self.timer.performance_frequency() as f64;
-            // Calculate and display FPS
             // Note: I have no idea whether this actually works, so if anyone would like to confirm
             // or deny this, please do
+            elapsed_time = (now - last) as f64 / self.timer.performance_frequency() as f64;
             time_acc += elapsed_time;
             fps_acc += 1.0 / elapsed_time;
             fps_counter += 1;
