@@ -3,15 +3,15 @@ use std::error::Error;
 use audio_game_engine::{Application, Color, Engine, WindowCanvas};
 
 struct App {
-    col: u8,
+    col: f32,
     flipper: bool,
 }
 
 impl App {
     pub fn new() -> Self {
         Self {
-            col: 255,
-            flipper: true,
+            col: 0.0,
+            flipper: false,
         }
     }
 }
@@ -22,15 +22,17 @@ impl Application for App {
         canvas: &mut WindowCanvas,
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>> {
-        if self.col == 0 || self.col == 255 {
+        if self.col <= 0.0 || self.col >= 255.0 {
             self.flipper = !self.flipper;
+            self.col = self.col.max(0.0).min(255.0);
         }
-        canvas.set_draw_color(Color::RGB(self.col, self.col, self.col));
+        let col = self.col as u8;
+        canvas.set_draw_color(Color::RGB(col, col, col));
         canvas.clear();
         if !self.flipper {
-            self.col -= 1;
+            self.col -= (130.0 * elapsed_time) as f32;
         } else {
-            self.col += 1;
+            self.col += (130.0 * elapsed_time) as f32;
         }
         Ok(())
     }
