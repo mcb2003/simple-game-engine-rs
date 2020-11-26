@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use audio_game_engine::{Application, Color, Engine, WindowCanvas};
+use simple_game_engine::{Application, Color, Engine, WindowCanvas};
 
 struct App {
     col: f32,
