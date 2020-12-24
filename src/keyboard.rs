@@ -50,4 +50,8 @@ impl KeyboardState {
             }
         }
     }
+
+    pub fn get(&self, scancode: &Scancode) -> Option<&Key> {
+        self.0.get(scancode)
+    }
 }
