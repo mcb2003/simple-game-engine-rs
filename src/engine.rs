@@ -30,14 +30,18 @@ impl<'a> Engine<'a> {
         })
     }
 
-    pub fn start(&mut self) -> Result<(), Box<dyn Error>> {
+    pub fn start(&mut self, present_vsync: bool) -> Result<(), Box<dyn Error>> {
         let video = self.ctx.video()?;
         let timer = self.ctx.timer()?;
         let mut canvas = video
             .window(self.title, self.width, self.height)
             .position_centered()
             .build()?
-        .into_canvas().build()?;
+        .into_canvas();
+        if present_vsync {
+            canvas = canvas.present_vsync();
+        }
+        let mut canvas = canvas.build()?;
         // These variables are used to determine the elapsed time between frames, to allow for
         // time-regulated things like animation
         let mut last: u64;

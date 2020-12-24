@@ -42,5 +42,5 @@ impl Application for App {
 fn main() -> Result<(), Box<dyn Error>> {
     let app = Box::new(App::new());
     let mut engine = Engine::new(app, "Test App", 400, 300)?;
-    engine.start()
+    engine.start(false)
 }
