@@ -5,7 +5,7 @@ use sdl2::event::Event;
 use super::Application;
 
 pub struct Engine<'a> {
-    app: Box<dyn Application>,
+    app: &'a mut dyn Application,
     title: &'a str,
     width: u32,
     height: u32,
@@ -14,11 +14,11 @@ pub struct Engine<'a> {
 
 impl<'a> Engine<'a> {
     pub fn new(
-        app: Box<dyn Application>,
+        app: &'a mut dyn Application,
         title: &'a str,
         width: u32,
         height: u32,
-    ) -> Result<Engine, Box<dyn Error>> {
+    ) -> Result<Engine<'a>, Box<dyn Error>> {
         let ctx = sdl2::init()?;
 
         Ok(Engine {
