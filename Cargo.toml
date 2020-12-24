@@ -5,6 +5,4 @@ authors = ["mcb2003 <mikeybuchan@hotmail.co.uk>"]
 edition = "2018"
 
 [dependencies]
-rg3d-sound = "0.17.0"
 sdl2 = "0.34.3"
-tts = "0.6.0"
