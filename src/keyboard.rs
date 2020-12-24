@@ -51,7 +51,19 @@ impl KeyboardState {
         }
     }
 
-    pub fn get(&self, scancode: &Scancode) -> Option<&Key> {
-        self.0.get(scancode)
+    pub fn get(&self, scancode: &Scancode) -> &Key {
+        self.0.get(scancode).unwrap()
+    }
+
+    pub fn pressed(&self, scancode: &Scancode) -> bool {
+        self.0.get(scancode).unwrap().pressed
+    }
+
+    pub fn released(&self, scancode: &Scancode) -> bool {
+        self.0.get(scancode).unwrap().released
+    }
+
+    pub fn held(&self, scancode: &Scancode) -> bool {
+        self.0.get(scancode).unwrap().held
     }
 }
