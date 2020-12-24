@@ -2,8 +2,8 @@ use std::collections::HashMap;
 
 use sdl2::keyboard::{Scancode, ScancodeIterator};
 
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
 /// Represents the state of a key.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Key {
     /// Was the key pressed on this frame?
     pub pressed: bool,
@@ -14,6 +14,7 @@ pub struct Key {
 }
 
 impl Key {
+    /// Create a new Key struct from an initial state.
     pub fn new(state: bool) -> Self {
         Self {
             pressed: state,
@@ -21,6 +22,7 @@ impl Key {
             held: state,
         }
     }
+
     /// Change the state based on if the key is currently held.
     /// This is called internally by the engine every frame.
     pub fn update(&mut self, state: bool) {
@@ -33,6 +35,7 @@ impl Key {
 pub struct KeyboardState(HashMap<Scancode, Key>);
 
 impl KeyboardState {
+    /// Create an initial state.
     pub fn new(scancodes: ScancodeIterator) -> Self {
         Self(
             scancodes
@@ -41,6 +44,8 @@ impl KeyboardState {
         )
     }
 
+    /// Update the previous state. This is called by the engine every frame to determine which keys
+    /// have been pressed / released.
     pub fn update(&mut self, scancodes: ScancodeIterator) {
         for (key, state) in scancodes {
             if let Some(prev_state) = self.0.get_mut(&key) {
@@ -51,18 +56,22 @@ impl KeyboardState {
         }
     }
 
+    /// Get the state of a specific key.
     pub fn get(&self, scancode: &Scancode) -> &Key {
         self.0.get(scancode).unwrap()
     }
 
+    /// Returns if the specified key was pressed on this frame.
     pub fn pressed(&self, scancode: &Scancode) -> bool {
         self.0.get(scancode).unwrap().pressed
     }
 
+    /// Returns if the specified key was released on this frame.
     pub fn released(&self, scancode: &Scancode) -> bool {
         self.0.get(scancode).unwrap().released
     }
 
+    /// Returns if the specified key is held down.
     pub fn held(&self, scancode: &Scancode) -> bool {
         self.0.get(scancode).unwrap().held
     }
