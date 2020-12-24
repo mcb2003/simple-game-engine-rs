@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use simple_game_engine::{Application, Color, Engine, WindowCanvas};
+use simple_game_engine::{Application, Color, Engine, KeyboardState, Scancode, WindowCanvas};
 
 struct App {
     col: f32,
@@ -20,6 +20,7 @@ impl Application for App {
     fn on_update(
         &mut self,
         canvas: &mut WindowCanvas,
+        keyboard: &KeyboardState,
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>> {
         // If we're at the bounds for a colour value, change direction
@@ -28,7 +29,7 @@ impl Application for App {
             self.col = self.col.min(255.0).max(0.0);
         }
         // Fill the screen with the current colour
-        canvas.set_draw_color(Color::RGB(self.col as u8, 0, 255 - self.col as u8));
+            canvas.set_draw_color(Color::RGB(self.col as u8, 0, 255 - self.col as u8));
         canvas.clear();
         if !self.flipper {
             self.col -= 130.0 * elapsed_time as f32;

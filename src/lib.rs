@@ -8,6 +8,7 @@ use std::error::Error;
 use sdl2::{render::Canvas, video::Window};
 
 pub use sdl2::{
+    keyboard::Scancode,
     pixels::Color,
     rect::{Point, Rect},
 };
@@ -25,6 +26,7 @@ pub trait Application {
     fn on_update(
         &mut self,
         canvas: &mut WindowCanvas,
+        keyboard: &KeyboardState,
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>>;
     /// Called when the window's close button is clicked.

@@ -2,7 +2,7 @@ use std::error::Error;
 
 use sdl2::event::Event;
 
-use super::Application;
+use super::{Application, KeyboardState};
 
 /// The main game engine, which manages the display and input.
 pub struct Engine<'a> {
@@ -53,6 +53,10 @@ impl<'a> Engine<'a> {
             canvas = canvas.present_vsync();
         }
         let mut canvas = canvas.build()?;
+        // Event handling
+        let mut event_pump = self.ctx.event_pump()?;
+        // Keyboard state
+        let mut keyboard = KeyboardState::new(event_pump.keyboard_state().scancodes());
         // These variables are used to determine the elapsed time between frames, to allow for
         // time-regulated things like animation
         let mut last: u64;
@@ -62,8 +66,6 @@ impl<'a> Engine<'a> {
         let mut time_acc = 0.0;
         let mut fps_acc = 0.0;
         let mut fps_counter = 0;
-        // Event handling
-        let mut event_pump = self.ctx.event_pump()?;
         loop {
             // Calculate and display FPS
             last = now;
@@ -84,7 +86,9 @@ impl<'a> Engine<'a> {
                 fps_counter = 0;
             }
 
-            self.app.on_update(&mut canvas, elapsed_time)?;
+            self.app.on_update(&mut canvas, &keyboard, elapsed_time)?;
+
+            // Handle events
             for event in event_pump.poll_iter() {
                 match event {
                     Event::Quit { .. } => {
@@ -93,6 +97,8 @@ impl<'a> Engine<'a> {
                     _ => {}
                 }
             }
+            // Refresh the keyboard state
+        keyboard.update(event_pump.keyboard_state().scancodes());
             canvas.present();
         }
     }
