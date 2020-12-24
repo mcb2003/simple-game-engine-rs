@@ -2,15 +2,14 @@ use std::error::Error;
 
 use sdl2::event::Event;
 
-use super::{Application, WindowCanvas};
+use super::Application;
 
 pub struct Engine<'a> {
     app: Box<dyn Application>,
     title: &'a str,
+    width: u32,
+    height: u32,
     ctx: sdl2::Sdl,
-    video: sdl2::VideoSubsystem,
-    timer: sdl2::TimerSubsystem,
-    canvas: WindowCanvas,
 }
 
 impl<'a> Engine<'a> {
@@ -21,29 +20,28 @@ impl<'a> Engine<'a> {
         height: u32,
     ) -> Result<Engine, Box<dyn Error>> {
         let ctx = sdl2::init()?;
-        let video = ctx.video()?;
-        let timer = ctx.timer()?;
-        let win = video
-            .window(title, width, height)
-            .position_centered()
-            .build()?;
-        let canvas = win.into_canvas().build()?;
 
         Ok(Engine {
             app,
             title,
+            width,
+            height,
             ctx,
-            video,
-            timer,
-            canvas,
         })
     }
 
     pub fn start(&mut self) -> Result<(), Box<dyn Error>> {
+        let video = self.ctx.video()?;
+        let timer = self.ctx.timer()?;
+        let mut canvas = video
+            .window(self.title, self.width, self.height)
+            .position_centered()
+            .build()?
+        .into_canvas().build()?;
         // These variables are used to determine the elapsed time between frames, to allow for
         // time-regulated things like animation
         let mut last: u64;
-        let mut now = self.timer.performance_counter();
+        let mut now = timer.performance_counter();
         let mut elapsed_time: f64;
         // These variables are used to calculate and display average frame rates
         let mut time_acc = 0.0;
@@ -54,10 +52,10 @@ impl<'a> Engine<'a> {
         loop {
             // Calculate and display FPS
             last = now;
-            now = self.timer.performance_counter();
+            now = timer.performance_counter();
             // Note: I have no idea whether this actually works, so if anyone would like to confirm
             // or deny this, please do
-            elapsed_time = (now - last) as f64 / self.timer.performance_frequency() as f64;
+            elapsed_time = (now - last) as f64 / timer.performance_frequency() as f64;
             time_acc += elapsed_time;
             fps_acc += 1.0 / elapsed_time;
             fps_counter += 1;
@@ -65,7 +63,7 @@ impl<'a> Engine<'a> {
                 let fps = fps_acc / fps_counter as f64;
                 let title = format!("{} ({} FPS)", self.title, fps.round() as u32);
                 // This fails silently on error
-                self.canvas
+                canvas
                     .window_mut()
                     .set_title(title.as_str())
                     .unwrap_or(());
@@ -74,14 +72,14 @@ impl<'a> Engine<'a> {
                 fps_counter = 0;
             }
 
-            self.app.on_update(&mut self.canvas, elapsed_time)?;
+            self.app.on_update(&mut canvas, elapsed_time)?;
             for event in event_pump.poll_iter() {
                 match event {
                     Event::Quit { .. } => return Ok(()),
                     _ => {}
                 }
             }
-            self.canvas.present();
+            canvas.present();
         }
     }
 }
