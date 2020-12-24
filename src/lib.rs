@@ -1,7 +1,7 @@
 mod engine;
 pub use engine::Engine;
 mod keyboard;
-pub use keyboard::Key;
+pub use keyboard::{Key, KeyboardState};
 
 use std::error::Error;
 
