@@ -37,7 +37,7 @@ impl<'a> Engine<'a> {
             .window(self.title, self.width, self.height)
             .position_centered()
             .build()?
-        .into_canvas();
+            .into_canvas();
         if present_vsync {
             canvas = canvas.present_vsync();
         }
@@ -67,10 +67,7 @@ impl<'a> Engine<'a> {
                 let fps = fps_acc / fps_counter as f64;
                 let title = format!("{} ({} FPS)", self.title, fps.round() as u32);
                 // This fails silently on error
-                canvas
-                    .window_mut()
-                    .set_title(title.as_str())
-                    .unwrap_or(());
+                canvas.window_mut().set_title(title.as_str()).unwrap_or(());
                 time_acc -= 1.0;
                 fps_acc = 0.0;
                 fps_counter = 0;
@@ -79,7 +76,9 @@ impl<'a> Engine<'a> {
             self.app.on_update(&mut canvas, elapsed_time)?;
             for event in event_pump.poll_iter() {
                 match event {
-                    Event::Quit { .. } => return Ok(()),
+                    Event::Quit { .. } => {
+                        return self.app.on_quit();
+                    }
                     _ => {}
                 }
             }

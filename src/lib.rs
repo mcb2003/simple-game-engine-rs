@@ -18,4 +18,7 @@ pub trait Application {
         canvas: &mut WindowCanvas,
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>>;
+    fn on_quit(&mut self) -> Result<(), Box<dyn Error>> {
+        Ok(())
+    }
 }
