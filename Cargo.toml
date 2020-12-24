@@ -1,6 +1,6 @@
 [package]
 name = "simple-game-engine"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["mcb2003 <mikeybuchan@hotmail.co.uk>"]
 edition = "2018"
 

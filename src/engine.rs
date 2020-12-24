@@ -4,6 +4,7 @@ use sdl2::event::Event;
 
 use super::Application;
 
+/// The main game engine, which manages the display and input.
 pub struct Engine<'a> {
     app: &'a mut dyn Application,
     title: &'a str,
@@ -13,6 +14,12 @@ pub struct Engine<'a> {
 }
 
 impl<'a> Engine<'a> {
+    /// Create a new engine.
+    /// # Parameters
+    ///* `app`: Defines the application's logic.
+    ///* `title`: Title of the window.
+    /// * `width`: Width (in pixels) of the window.
+    /// * `height`: Height (in pixels) of the window.
     pub fn new(
         app: &'a mut dyn Application,
         title: &'a str,
@@ -30,6 +37,10 @@ impl<'a> Engine<'a> {
         })
     }
 
+    /// Create and show the window and start the main event loop.
+    /// # Parameters
+    /// * `present_vsync`: Whether to limit the frame rate of the application to the frame rate of
+    ///   the display.
     pub fn start(&mut self, present_vsync: bool) -> Result<(), Box<dyn Error>> {
         let video = self.ctx.video()?;
         let timer = self.ctx.timer()?;
