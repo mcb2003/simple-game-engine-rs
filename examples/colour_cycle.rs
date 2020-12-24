@@ -37,6 +37,11 @@ impl Application for App {
         }
         Ok(())
     }
+
+    fn on_quit(&mut self) -> Result<(), Box<dyn Error>> {
+        println!("Quitting ...");
+        Ok(())
+    }
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
