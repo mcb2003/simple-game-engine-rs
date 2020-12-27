@@ -2,7 +2,7 @@ use std::error::Error;
 
 use sdl2::event::Event;
 
-use super::{Application, KeyboardState};
+use crate::{input::KeyboardState, Application};
 
 /// The main game engine, which manages the display and input.
 pub struct Engine<'a> {

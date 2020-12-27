@@ -1,6 +1,9 @@
 use std::error::Error;
 
-use simple_game_engine::{Application, Color, Engine, KeyboardState, Scancode, WindowCanvas};
+use simple_game_engine::{
+    input::{KeyboardState, Scancode},
+    Application, Color, Engine, WindowCanvas,
+};
 
 struct App {
     col: f32,
@@ -24,9 +27,9 @@ impl Application for App {
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>> {
         // Handle keyboard input
-    if keyboard.pressed(Scancode::Q) {
-        std::process::exit(0);
-    }
+        if keyboard.pressed(Scancode::Q) {
+            std::process::exit(0);
+        }
         // If we're at the bounds for a colour value, change direction
         if self.col <= 0.0 || self.col >= 255.0 {
             self.flipper = !self.flipper;

@@ -1,15 +1,13 @@
 mod engine;
 pub use engine::Engine;
-mod keyboard;
-pub use keyboard::{Key, KeyboardState};
+pub mod input;
 
 use std::error::Error;
 
 pub use sdl2::{
-    keyboard::Scancode,
     pixels::Color,
     rect::{Point, Rect},
-    render::WindowCanvas
+    render::WindowCanvas,
 };
 
 /// An application using this framework.
@@ -22,7 +20,7 @@ pub trait Application {
     fn on_update(
         &mut self,
         canvas: &mut WindowCanvas,
-        keyboard: &KeyboardState,
+        keyboard: &input::KeyboardState,
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>>;
     /// Called when the window's close button is clicked.
