@@ -24,7 +24,7 @@ impl Application for App {
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>> {
         // Handle keyboard input
-    if keyboard.pressed(Scancode::Q) {
+    if keyboard.is_pressed(Scancode::Q) {
         std::process::exit(0);
     }
         // If we're at the bounds for a colour value, change direction
