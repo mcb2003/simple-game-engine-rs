@@ -48,7 +48,8 @@ impl<'a> Engine<'a> {
             .window(self.title, self.width, self.height)
             .position_centered()
             .build()?
-            .into_canvas();
+            .into_canvas()
+            .accelerated();
         if present_vsync {
             canvas = canvas.present_vsync();
         }
@@ -98,7 +99,7 @@ impl<'a> Engine<'a> {
                 }
             }
             // Refresh the keyboard state
-        keyboard.update(event_pump.keyboard_state().scancodes());
+            keyboard.update(event_pump.keyboard_state().scancodes());
             canvas.present();
         }
     }
