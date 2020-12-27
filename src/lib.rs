@@ -5,16 +5,12 @@ pub use keyboard::{Key, KeyboardState};
 
 use std::error::Error;
 
-use sdl2::{render::Canvas, video::Window};
-
 pub use sdl2::{
     keyboard::Scancode,
     pixels::Color,
     rect::{Point, Rect},
+    render::WindowCanvas
 };
-
-/// A draw target for a window on screen.
-pub type WindowCanvas = Canvas<Window>;
 
 /// An application using this framework.
 pub trait Application {
