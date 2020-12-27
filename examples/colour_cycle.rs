@@ -26,7 +26,6 @@ impl Application for App {
         // If we're at the bounds for a colour value, change direction
         if self.col <= 0.0 || self.col >= 255.0 {
             self.flipper = !self.flipper;
-            self.col = self.col.min(255.0).max(0.0);
         }
         // Fill the screen with the current colour
             canvas.set_draw_color(Color::RGB(self.col as u8, 0, 255 - self.col as u8));
