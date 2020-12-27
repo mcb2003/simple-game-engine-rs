@@ -57,22 +57,22 @@ impl KeyboardState {
     }
 
     /// Get the state of a specific key.
-    pub fn get(&self, scancode: &Scancode) -> &Key {
-        self.0.get(scancode).unwrap()
+    pub fn get(&self, scancode: Scancode) -> &Key {
+        self.0.get(&scancode).unwrap()
     }
 
     /// Returns if the specified key was pressed on this frame.
-    pub fn pressed(&self, scancode: &Scancode) -> bool {
-        self.0.get(scancode).unwrap().pressed
+    pub fn pressed(&self, scancode: Scancode) -> bool {
+        self.0.get(&scancode).unwrap().pressed
     }
 
     /// Returns if the specified key was released on this frame.
-    pub fn released(&self, scancode: &Scancode) -> bool {
-        self.0.get(scancode).unwrap().released
+    pub fn released(&self, scancode: Scancode) -> bool {
+        self.0.get(&scancode).unwrap().released
     }
 
     /// Returns if the specified key is held down.
-    pub fn held(&self, scancode: &Scancode) -> bool {
-        self.0.get(scancode).unwrap().held
+    pub fn held(&self, scancode: Scancode) -> bool {
+        self.0.get(&scancode).unwrap().held
     }
 }
