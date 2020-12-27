@@ -1,9 +1,6 @@
 use std::error::Error;
 
-use simple_game_engine::{
-    input::{KeyboardState, Scancode},
-    Application, Color, Engine, WindowCanvas,
-};
+use simple_game_engine::{input, prelude::*, Application, Engine};
 
 struct App {
     col: f32,
@@ -23,7 +20,7 @@ impl Application for App {
     fn on_update(
         &mut self,
         canvas: &mut WindowCanvas,
-        keyboard: &KeyboardState,
+        keyboard: &input::KeyboardState,
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>> {
         // Handle keyboard input

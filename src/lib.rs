@@ -29,3 +29,7 @@ pub trait Application {
         Ok(())
     }
 }
+
+pub mod prelude {
+    pub use crate::{input::Scancode, Color, Point, Rect, WindowCanvas};
+}
