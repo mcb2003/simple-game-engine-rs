@@ -35,16 +35,22 @@ mod tests {
     /// Check initial state on construction.
     #[test]
     fn test_initial_state() {
-        assert_eq!(Button::new(false), Button {
-            pressed: false,
-            released: false,
-            held: false
-        });
-        assert_eq!(Button::new(true), Button {
-            pressed: true,
-            released: false,
-            held: true
-        });
+        assert_eq!(
+            Button::new(false),
+            Button {
+                pressed: false,
+                released: false,
+                held: false
+            }
+        );
+        assert_eq!(
+            Button::new(true),
+            Button {
+                pressed: true,
+                released: false,
+                held: true
+            }
+        );
     }
 
     /// Test updating a Button's state.
@@ -53,31 +59,43 @@ mod tests {
         let mut btn = Button::new(false);
         // Pressed (first frame)
         btn.update(true);
-        assert_eq!(btn, Button {
-            pressed: true,
-            released: false,
-            held: true,
-        });
+        assert_eq!(
+            btn,
+            Button {
+                pressed: true,
+                released: false,
+                held: true,
+            }
+        );
         // Held (subsequent frames)
         btn.update(true);
-        assert_eq!(btn, Button {
-            pressed: false,
-            released: false,
-            held: true,
-        });
+        assert_eq!(
+            btn,
+            Button {
+                pressed: false,
+                released: false,
+                held: true,
+            }
+        );
         // Released (first frame)
         btn.update(false);
-        assert_eq!(btn, Button {
-            pressed: false,
-            released: true,
-            held: false,
-        });
+        assert_eq!(
+            btn,
+            Button {
+                pressed: false,
+                released: true,
+                held: false,
+            }
+        );
         // Not held (subsequent frames)
         btn.update(false);
-        assert_eq!(btn, Button {
-            pressed: false,
-            released: false,
-            held: false,
-        });
+        assert_eq!(
+            btn,
+            Button {
+                pressed: false,
+                released: false,
+                held: false,
+            }
+        );
     }
 }

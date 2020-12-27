@@ -24,6 +24,8 @@ pub trait Application {
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>>;
     /// Called when the window's close button is clicked.
+    /// Be aware that this isn't called on `std::process::exit`, so do any essential
+    /// cleanup in a `Drop` implementation instead.
     /// Does nothing by default.
     fn on_quit(&mut self) -> Result<(), Box<dyn Error>> {
         Ok(())
