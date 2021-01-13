@@ -2,6 +2,8 @@ use std::error::Error;
 
 use simple_game_engine::{input, prelude::*, Application, Engine};
 
+const CYCLE_SPEED: f32 = 130.0;
+
 struct App {
     col: f32,
     flipper: bool,
@@ -36,9 +38,9 @@ impl Application for App {
         canvas.clear();
         // Change the colour
         if !self.flipper {
-            self.col -= 130.0 * elapsed_time as f32;
+            self.col -= CYCLE_SPEED * elapsed_time as f32;
         } else {
-            self.col += 130.0 * elapsed_time as f32;
+            self.col += CYCLE_SPEED * elapsed_time as f32;
         }
         Ok(())
     }
