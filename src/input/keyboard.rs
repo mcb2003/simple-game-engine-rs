@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, ops::Index};
 
 use sdl2::keyboard::{Scancode, ScancodeIterator};
 
@@ -46,5 +46,13 @@ impl KeyboardState {
     /// Returns if the specified key is held down.
     pub fn held(&self, scancode: Scancode) -> bool {
         self.0.get(&scancode).unwrap().held
+    }
+}
+
+impl Index<Scancode> for KeyboardState {
+    type Output = Button;
+
+    fn index(&self, key: Scancode) -> &Self::Output {
+        self.get(key)
     }
 }
