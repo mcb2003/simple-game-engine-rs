@@ -24,11 +24,11 @@ impl Application for App {
     fn on_update(
         &mut self,
         canvas: &mut WindowCanvas,
-        keyboard: &input::KeyboardState,
+        input: &input::InputState,
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>> {
         // Handle keyboard input
-        if keyboard.pressed(input::Scancode::Q) {
+        if input.keyboard.pressed(input::Scancode::Q) {
             std::process::exit(0);
         }
         // If we're at the bounds for a colour value, change direction

@@ -20,7 +20,7 @@ pub trait Application {
     fn on_update(
         &mut self,
         canvas: &mut WindowCanvas,
-        keyboard: &input::KeyboardState,
+        input: &input::InputState,
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>>;
     /// Called when the window's close button is clicked.

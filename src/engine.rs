@@ -2,7 +2,10 @@ use std::error::Error;
 
 use sdl2::event::Event;
 
-use crate::{input::KeyboardState, Application};
+use crate::{
+    input::{InputState, KeyboardState, MouseState},
+    Application,
+};
 
 /// The main game engine, which manages the display and input.
 pub struct Engine<'a> {
@@ -54,8 +57,11 @@ impl<'a> Engine<'a> {
         let mut canvas = canvas.build()?;
         // Event handling
         let mut event_pump = self.ctx.event_pump()?;
-        // Keyboard state
-        let mut keyboard = KeyboardState::new(event_pump.keyboard_state().scancodes());
+        // Input state
+        let mut input = InputState {
+            keyboard: KeyboardState::new(event_pump.keyboard_state().scancodes()),
+            mouse: MouseState::new(event_pump.mouse_state().mouse_buttons()),
+        };
         // These variables are used to determine the elapsed time between frames, to allow for
         // time-regulated things like animation and to calculate average frame rates
         let mut now = timer.performance_counter();
@@ -82,7 +88,7 @@ impl<'a> Engine<'a> {
                 fps_counter = 0;
             }
 
-            self.app.on_update(&mut canvas, &keyboard, elapsed_time)?;
+            self.app.on_update(&mut canvas, &input, elapsed_time)?;
 
             // Handle events
             for event in event_pump.poll_iter() {
@@ -94,7 +100,10 @@ impl<'a> Engine<'a> {
                 }
             }
             // Refresh the keyboard state
-            keyboard.update(event_pump.keyboard_state().scancodes());
+            input
+                .keyboard
+                .update(event_pump.keyboard_state().scancodes());
+            input.mouse.update(event_pump.mouse_state().mouse_buttons());
 
             // Flip the double buffer
             canvas.present();
