@@ -2,6 +2,8 @@
 name = "simple-game-engine"
 version = "0.2.0"
 authors = ["mcb2003 <mikeybuchan@hotmail.co.uk>"]
+description = "A minimal game engine inspired by the OLC Pixel Game Engine"
+license = "MIT"
 edition = "2018"
 
 [dependencies]
