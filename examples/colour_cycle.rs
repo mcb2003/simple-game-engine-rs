@@ -3,6 +3,8 @@ use std::error::Error;
 use simple_game_engine::{prelude::*, Application, Engine};
 
 const CYCLE_SPEED: f32 = 130.0;
+const SCREEN_WIDTH: u32 = 480;
+const SCREEN_HEIGHT: u32 = 360;
 
 struct App {
     col: f32,
@@ -53,6 +55,6 @@ impl Application for App {
 
 fn main() -> Result<(), Box<dyn Error>> {
     let mut app = App::new();
-    let mut engine = Engine::new(&mut app, "Test App", 400, 300)?;
+    let mut engine = Engine::new(&mut app, "Test App", SCREEN_WIDTH, SCREEN_HEIGHT)?;
     engine.start(false)
 }
