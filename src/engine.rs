@@ -26,14 +26,12 @@ impl<'a> Engine<'a> {
         width: u32,
         height: u32,
     ) -> Result<Engine<'a>, Box<dyn Error>> {
-        let ctx = sdl2::init()?;
-
         Ok(Engine {
             app,
             title,
             width,
             height,
-            ctx,
+            ctx: sdl2::init()?,
         })
     }
 
@@ -59,21 +57,18 @@ impl<'a> Engine<'a> {
         // Keyboard state
         let mut keyboard = KeyboardState::new(event_pump.keyboard_state().scancodes());
         // These variables are used to determine the elapsed time between frames, to allow for
-        // time-regulated things like animation
-        let mut last: u64;
+        // time-regulated things like animation and to calculate average frame rates
         let mut now = timer.performance_counter();
-        let mut elapsed_time: f64;
-        // These variables are used to calculate and display average frame rates
         let mut time_acc = 0.0;
         let mut fps_acc = 0.0;
         let mut fps_counter = 0;
         loop {
             // Calculate and display FPS
-            last = now;
+            let last = now;
             now = timer.performance_counter();
             // Note: I have no idea whether this actually works, so if anyone would like to confirm
             // or deny this, please do
-            elapsed_time = (now - last) as f64 / timer.performance_frequency() as f64;
+            let elapsed_time = (now - last) as f64 / timer.performance_frequency() as f64;
             time_acc += elapsed_time;
             fps_acc += 1.0 / elapsed_time;
             fps_counter += 1;
@@ -100,6 +95,8 @@ impl<'a> Engine<'a> {
             }
             // Refresh the keyboard state
             keyboard.update(event_pump.keyboard_state().scancodes());
+
+            // Flip the double buffer
             canvas.present();
         }
     }
