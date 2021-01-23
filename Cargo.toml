@@ -7,4 +7,5 @@ license = "MIT"
 edition = "2018"
 
 [dependencies]
+fnv = "1.0.7"
 sdl2 = "0.34.3"

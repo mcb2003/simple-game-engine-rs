@@ -1,8 +1,10 @@
-use std::{collections::HashMap, hash::Hash, ops::Index};
+use std::{hash::Hash, ops::Index};
+
+use fnv::FnvHashMap;
 
 use super::Button;
 
-pub struct ButtonState<T>(HashMap<T, Button>);
+pub struct ButtonState<T>(FnvHashMap<T, Button>);
 
 impl<T> ButtonState<T>
 where
