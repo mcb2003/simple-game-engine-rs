@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use simple_game_engine::{input, prelude::*, Application, Engine};
+use simple_game_engine::{prelude::*, Application, Engine};
 
 const CYCLE_SPEED: f32 = 130.0;
 
@@ -26,7 +26,7 @@ impl Application for App {
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>> {
         // Handle keyboard input
-        if keyboard.pressed(Scancode::Q) {
+        if keyboard.pressed(input::Scancode::Q) {
             std::process::exit(0);
         }
         // If we're at the bounds for a colour value, change direction

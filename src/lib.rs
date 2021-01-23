@@ -33,5 +33,5 @@ pub trait Application {
 }
 
 pub mod prelude {
-    pub use crate::{input::Scancode, Color, Point, Rect, WindowCanvas};
+    pub use crate::{input, Color, Point, Rect, WindowCanvas};
 }
