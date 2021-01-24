@@ -10,6 +10,9 @@ pub use sdl2::{
     render::WindowCanvas,
 };
 
+/// The return type of `Application::on_update()`
+pub type UpdateResult = Result<bool, Box<dyn Error>>;
+
 /// An application using this framework.
 pub trait Application {
     /// Called once per frame.
@@ -22,7 +25,7 @@ pub trait Application {
         canvas: &mut WindowCanvas,
         input: &input::InputState,
         elapsed_time: f64,
-    ) -> Result<bool, Box<dyn Error>>;
+    ) -> UpdateResult;
     /// Called when the window's close button is clicked.
     /// Be aware that this isn't called on `std::process::exit`, so do any essential
     /// cleanup in a `Drop` implementation instead.

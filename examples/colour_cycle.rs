@@ -26,7 +26,7 @@ impl sge::Application for App {
         canvas: &mut WindowCanvas,
         input: &InputState,
         elapsed_time: f64,
-    ) -> Result<bool, Box<dyn Error>> {
+    ) -> sge::UpdateResult {
         // Handle keyboard input
         if input.keyboard.pressed(Scancode::Q) {
             return Ok(false);

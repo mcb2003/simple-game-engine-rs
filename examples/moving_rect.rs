@@ -24,7 +24,7 @@ impl sge::Application for App {
         canvas: &mut WindowCanvas,
         input: &InputState,
         elapsed_time: f64,
-    ) -> Result<bool, Box<dyn Error>> {
+    ) -> sge::UpdateResult {
         // Move the rectangle
         if input.keyboard.held(Scancode::Up) {
             self.y = (self.y - MOVEMENT_SPEED * elapsed_time).max(0.0);
