@@ -1,3 +1,6 @@
+//! Contains the `Engine` type, which manages all resources to do with the game engine, and calls
+//! the functions defined in the `Application` trait.
+
 use std::error::Error;
 
 use sdl2::event::Event;

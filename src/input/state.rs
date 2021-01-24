@@ -1,9 +1,12 @@
+//! Types related to the state of various input devices.
+
 use std::{hash::Hash, ops::Index};
 
 use fnv::FnvHashMap;
 
 use super::Button;
 
+/// The state (pressed, held, released) of a collection of buttons.
 pub struct ButtonState<T>(FnvHashMap<T, Button>);
 
 impl<T> ButtonState<T>

@@ -1,3 +1,6 @@
+//! Contains the `Button` type, which stores the state (pressed, held, released) of a single button
+//! or key.
+
 /// Represents the state of a button, such as a keyboard key or mouse button.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Button {
