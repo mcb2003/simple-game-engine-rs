@@ -1,7 +1,5 @@
 //! Types related to the state of the mouse.
 
-use std::ops::Deref;
-
 use sdl2::mouse::MouseState as SdlMouseState;
 
 use super::{ButtonState, MouseButton};

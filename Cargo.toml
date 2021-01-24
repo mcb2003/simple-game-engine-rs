@@ -1,6 +1,6 @@
 [package]
 name = "simple-game-engine"
-version = "0.5.1"
+version = "0.5.2"
 authors = ["mcb2003 <mikeybuchan@hotmail.co.uk>"]
 description = "A minimal game engine inspired by the OLC Pixel Game Engine"
 keywords = ["gamedev", "graphics", "sdl", "wrapper", "sge"]
