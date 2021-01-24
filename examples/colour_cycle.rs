@@ -26,10 +26,10 @@ impl sge::Application for App {
         canvas: &mut WindowCanvas,
         input: &InputState,
         elapsed_time: f64,
-    ) -> Result<(), Box<dyn Error>> {
+    ) -> Result<bool, Box<dyn Error>> {
         // Handle keyboard input
         if input.keyboard.pressed(Scancode::Q) {
-            std::process::exit(0);
+            return Ok(false);
         }
         // If we're at the bounds for a colour value, change direction
         if self.col <= 0.0 || self.col >= 255.0 {
@@ -44,7 +44,7 @@ impl sge::Application for App {
         } else {
             self.col += CYCLE_SPEED * elapsed_time as f32;
         }
-        Ok(())
+        Ok(true)
     }
 
     fn on_quit(&mut self) -> Result<(), Box<dyn Error>> {

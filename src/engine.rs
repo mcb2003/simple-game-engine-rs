@@ -88,7 +88,10 @@ impl<'a> Engine<'a> {
                 fps_counter = 0;
             }
 
-            self.app.on_update(&mut canvas, &input, elapsed_time)?;
+            // Process next frame and exit if `Ok(false)` is returned
+            if !self.app.on_update(&mut canvas, &input, elapsed_time)? {
+                return self.app.on_quit();
+            }
 
             // Handle events
             for event in event_pump.poll_iter() {
