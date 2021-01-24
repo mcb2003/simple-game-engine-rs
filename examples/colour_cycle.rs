@@ -1,6 +1,6 @@
 use std::error::Error;
 
-use simple_game_engine::{prelude::*, Application, Engine};
+use simple_game_engine::{self as sge, prelude::*};
 
 const CYCLE_SPEED: f32 = 130.0;
 const SCREEN_WIDTH: u32 = 480;
@@ -20,15 +20,15 @@ impl App {
     }
 }
 
-impl Application for App {
+impl sge::Application for App {
     fn on_update(
         &mut self,
         canvas: &mut WindowCanvas,
-        input: &input::InputState,
+        input: &InputState,
         elapsed_time: f64,
     ) -> Result<(), Box<dyn Error>> {
         // Handle keyboard input
-        if input.keyboard.pressed(input::Scancode::Q) {
+        if input.keyboard.pressed(Scancode::Q) {
             std::process::exit(0);
         }
         // If we're at the bounds for a colour value, change direction
@@ -55,6 +55,6 @@ impl Application for App {
 
 fn main() -> Result<(), Box<dyn Error>> {
     let mut app = App::new();
-    let mut engine = Engine::new(&mut app, "Test App", SCREEN_WIDTH, SCREEN_HEIGHT)?;
+    let mut engine = sge::Engine::new(&mut app, "Test App", SCREEN_WIDTH, SCREEN_HEIGHT)?;
     engine.start(false)
 }
