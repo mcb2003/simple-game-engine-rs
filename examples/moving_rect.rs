@@ -25,7 +25,7 @@ impl sge::Application for App {
         input: &InputState,
         elapsed_time: f64,
     ) -> sge::UpdateResult {
-        // Move the rectangle
+        // Move the rectangle with the keyboard
         if input.keyboard.held(Scancode::Up) {
             self.y = (self.y - MOVEMENT_SPEED * elapsed_time).max(0.0);
         } else if input.keyboard.held(Scancode::Down) {
@@ -37,6 +37,11 @@ impl sge::Application for App {
         } else if input.keyboard.held(Scancode::Right) {
             self.x =
                 (self.x + MOVEMENT_SPEED * elapsed_time).min((SCREEN_WIDTH - RECT_SIZE) as f64);
+        }
+        // Move the rectangle with the mouse
+        if input.mouse.buttons.held(MouseButton::Left) {
+            self.x = input.mouse.x as f64;
+            self.y = input.mouse.y as f64;
         }
         // Fill the screen
         canvas.set_draw_color(Color::RGB(0, 0, 0));

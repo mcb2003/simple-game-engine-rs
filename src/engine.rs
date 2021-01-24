@@ -60,7 +60,7 @@ impl<'a> Engine<'a> {
         // Input state
         let mut input = InputState {
             keyboard: KeyboardState::new(event_pump.keyboard_state().scancodes()),
-            mouse: MouseState::new(event_pump.mouse_state().mouse_buttons()),
+            mouse: MouseState::new(event_pump.mouse_state()),
         };
         // These variables are used to determine the elapsed time between frames, to allow for
         // time-regulated things like animation and to calculate average frame rates
@@ -106,7 +106,7 @@ impl<'a> Engine<'a> {
             input
                 .keyboard
                 .update(event_pump.keyboard_state().scancodes());
-            input.mouse.update(event_pump.mouse_state().mouse_buttons());
+            input.mouse.update(event_pump.mouse_state());
 
             // Flip the double buffer
             canvas.present();
