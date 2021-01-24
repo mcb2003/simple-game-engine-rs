@@ -3,6 +3,10 @@ name = "simple-game-engine"
 version = "0.4.0"
 authors = ["mcb2003 <mikeybuchan@hotmail.co.uk>"]
 description = "A minimal game engine inspired by the OLC Pixel Game Engine"
+keywords = ["gamedev", "graphics", "sdl", "wrapper", "sge"]
+categories = ["game-development", "game-engines", "multimedia", "renderin::engine"]
+readme = "README.md"
+repository = "https://github.com/mcb2003/simple-game-engine-rs"
 license = "MIT"
 edition = "2018"
 
