@@ -36,10 +36,12 @@ pub trait Application {
     ///   time-sensative routines, such as animation, running at a constant speed.
     fn on_update(
         &mut self,
-        canvas: &mut WindowCanvas,
-        input: &input::InputState,
-        elapsed_time: f64,
-    ) -> ApplicationResult;
+        _canvas: &mut WindowCanvas,
+        _input: &input::InputState,
+        _elapsed_time: f64,
+    ) -> ApplicationResult {
+        Ok(true)
+    }
     /// Called when the window's close button is clicked.
     /// Be aware that this isn't called on `std::process::exit`, so do any essential
     /// cleanup in a `Drop` implementation instead.
