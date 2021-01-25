@@ -1,3 +1,47 @@
+//! # Example
+//! The simplest SGE program looks like this:
+//! ```no_run
+//! use simple_game_engine::{self as sge, prelude::*};
+//! use std::error::Error;
+//!
+//! struct App {}
+//!
+//! impl sge::Application for App {
+//!     fn on_create(
+//!         &mut self,
+//!         canvas: &mut WindowCanvas,
+//!         input: &InputState,
+//!     ) -> sge::ApplicationResult {
+//!         // Do one-time initialisation here
+//!         Ok(true) // `true` indicates to continue running the application
+//!     }
+//!
+//!     fn on_update(
+//!         &mut self,
+//!         canvas: &mut WindowCanvas,
+//!         input: &InputState,
+//!         elapsed_time: f64,
+//!     ) -> sge::ApplicationResult {
+//!         // Handle user input, update the canvas, and perform any other tasks to be ran on each frame
+//!         Ok(true) // `true` indicates to continue running the application
+//!     }
+//! }
+//!
+//! fn main() -> Result<(), Box<dyn Error>> {
+//!     let mut app = App {};
+//!     let mut engine = sge::Engine::new(
+//!         &mut app,   // Application instance
+//!         "Test App", // Window title
+//!         640,        // Window width
+//!         480,        // Window height
+//!     )?;
+//!     engine.start(true)
+//! }
+//! ```
+//! `on_create` and `on_update` are optional, but their default implementation does nothing, so
+//! you'll probably want to define some logic for at least `on_update`, which is called for every
+//! frame.
+
 mod engine;
 pub use engine::Engine;
 pub mod input;
