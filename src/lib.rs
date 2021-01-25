@@ -11,13 +11,27 @@ pub use sdl2::{
 };
 
 /// The return type of `Application::on_update()`
-pub type UpdateResult = Result<bool, Box<dyn Error>>;
+pub type ApplicationResult = Result<bool, Box<dyn Error>>;
 
 /// An application using this framework.
 pub trait Application {
+    /// Called once at the start of the program.
+    /// # Parameters
+    /// * `canvas`: A draw target representing the visible window.
+    /// * `input`: a struct containing info about the state of input devices, such as the keyboard
+    ///   and mouse.
+    fn on_create(
+        &mut self,
+        _canvas: &mut WindowCanvas,
+        _input: &input::InputState,
+    ) -> ApplicationResult {
+        Ok(true)
+    }
     /// Called once per frame.
     /// # Parameters
     /// * `canvas`: A draw target representing the visible window.
+    /// * `input`: a struct containing info about the state of input devices, such as the keyboard
+    ///   and mouse.
     /// * `elapsed_time`: Duration (in seconds) since the last frame. This can be used to keep
     ///   time-sensative routines, such as animation, running at a constant speed.
     fn on_update(
@@ -25,7 +39,7 @@ pub trait Application {
         canvas: &mut WindowCanvas,
         input: &input::InputState,
         elapsed_time: f64,
-    ) -> UpdateResult;
+    ) -> ApplicationResult;
     /// Called when the window's close button is clicked.
     /// Be aware that this isn't called on `std::process::exit`, so do any essential
     /// cleanup in a `Drop` implementation instead.
@@ -36,6 +50,7 @@ pub trait Application {
 }
 
 pub mod prelude {
+    //! Commonly used types.
     pub use crate::{
         input::{InputState, MouseButton, Scancode},
         Color, Point, Rect, WindowCanvas,

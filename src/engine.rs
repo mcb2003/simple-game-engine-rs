@@ -65,6 +65,13 @@ impl<'a> Engine<'a> {
             keyboard: KeyboardState::new(event_pump.keyboard_state().scancodes()),
             mouse: MouseState::new(event_pump.mouse_state()),
         };
+
+        // Call the app.on_create() function so the user can perform one-time initialisation of
+        // their application.
+        if !self.app.on_create(&mut canvas, &input)? {
+            return self.app.on_quit();
+        }
+
         // These variables are used to determine the elapsed time between frames, to allow for
         // time-regulated things like animation and to calculate average frame rates
         let mut now = timer.performance_counter();
