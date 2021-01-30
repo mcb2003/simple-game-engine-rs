@@ -31,7 +31,7 @@ impl<'a> Engine<'a> {
         title: &'a str,
         width: u32,
         height: u32,
-    ) -> Result<Engine<'a>, Box<dyn Error>> {
+    ) -> Result<Engine<'a>, String> {
         Ok(Engine {
             app,
             title,
