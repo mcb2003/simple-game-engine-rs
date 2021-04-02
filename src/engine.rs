@@ -7,12 +7,12 @@ use sdl2::event::Event;
 
 use crate::{
     input::{InputState, KeyboardState, MouseState},
-    Application,
+    Application, WindowCanvas,
 };
 
 /// The main game engine, which manages the display and input.
 pub struct Engine<'a> {
-    app: &'a mut dyn Application,
+    app: &'a mut dyn Application<WindowCanvas>,
     title: &'a str,
     width: u32,
     height: u32,

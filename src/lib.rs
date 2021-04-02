@@ -58,17 +58,13 @@ pub use sdl2::{
 pub type ApplicationResult = Result<bool, Box<dyn Error>>;
 
 /// An application using this framework.
-pub trait Application {
+pub trait Application<Canvas = WindowCanvas> {
     /// Called once at the start of the program.
     /// # Parameters
     /// * `canvas`: A draw target representing the visible window.
     /// * `input`: a struct containing info about the state of input devices, such as the keyboard
     ///   and mouse.
-    fn on_create(
-        &mut self,
-        _canvas: &mut WindowCanvas,
-        _input: &input::InputState,
-    ) -> ApplicationResult {
+    fn on_create(&mut self, _canvas: &mut Canvas, _input: &input::InputState) -> ApplicationResult {
         Ok(true)
     }
     /// Called once per frame.
@@ -80,7 +76,7 @@ pub trait Application {
     ///   time-sensative routines, such as animation, running at a constant speed.
     fn on_update(
         &mut self,
-        _canvas: &mut WindowCanvas,
+        _canvas: &mut Canvas,
         _input: &input::InputState,
         _elapsed_time: f64,
     ) -> ApplicationResult {
