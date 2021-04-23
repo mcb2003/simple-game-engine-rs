@@ -44,6 +44,8 @@
 
 mod engine;
 pub use engine::Engine;
+pub mod canvas;
+pub use canvas::WindowCanvas;
 pub mod input;
 
 use std::error::Error;
@@ -51,7 +53,6 @@ use std::error::Error;
 pub use sdl2::{
     pixels::Color,
     rect::{Point, Rect},
-    render::WindowCanvas,
 };
 
 /// The return type of `Application::on_update()`
@@ -94,7 +95,7 @@ pub trait Application<Canvas = WindowCanvas> {
 pub mod prelude {
     //! Commonly used types.
     pub use crate::{
-        input::{InputState, MouseButton, Scancode},
-        Color, Point, Rect, WindowCanvas,
+        input::{InputState, MouseButton, Scancode}, WindowCanvas,
+        Color, Point, Rect,
     };
 }

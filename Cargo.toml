@@ -1,6 +1,6 @@
 [package]
 name = "simple-game-engine"
-version = "0.6.1"
+version = "0.7.0"
 authors = ["mcb2003 <mikeybuchan@hotmail.co.uk>"]
 description = "A minimal game engine inspired by the OLC Pixel Game Engine"
 keywords = ["gamedev", "graphics", "sdl", "wrapper", "sge"]
@@ -13,4 +13,5 @@ edition = "2018"
 
 [dependencies]
 fnv = "1.0.7"
-sdl2 = "0.34.3"
+sdl2 = "0.34.4"
+sdl2-unifont = { path = "../third-party/sdl2-unifont" }

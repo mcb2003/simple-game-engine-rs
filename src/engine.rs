@@ -57,7 +57,7 @@ impl<'a> Engine<'a> {
         if present_vsync {
             canvas = canvas.present_vsync();
         }
-        let mut canvas = canvas.build()?;
+        let mut canvas = WindowCanvas::new(canvas.build()?);
         // Event handling
         let mut event_pump = self.ctx.event_pump()?;
         // Input state
