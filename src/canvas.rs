@@ -16,6 +16,20 @@ pub struct Canvas<T: RenderTarget, U> {
     inner: SdlCanvas<T>,
     texture_creator: TextureCreator<U>,
     text_renderer: TextRenderer,
+    synced_colors: bool,
+}
+
+impl WindowCanvas {
+    pub fn new(inner: SdlCanvas<Window>) -> Self {
+        let texture_creator = inner.texture_creator();
+        let text_renderer = TextRenderer::new(inner.draw_color(), Color::RGBA(0, 0, 0, 0));
+        Self {
+            inner,
+            texture_creator,
+            text_renderer,
+            synced_colors: true,
+        }
+    }
 }
 
 impl<'a> SurfaceCanvas<'a> {
@@ -26,6 +40,7 @@ impl<'a> SurfaceCanvas<'a> {
             inner,
             texture_creator,
             text_renderer,
+            synced_colors: true,
         }
     }
 
@@ -41,18 +56,6 @@ impl<'a> SurfaceCanvas<'a> {
         rect.set_y(pos.y());
         surface.blit(None, self.inner.surface_mut(), rect)?;
         Ok(surface)
-    }
-}
-
-impl WindowCanvas {
-    pub fn new(inner: SdlCanvas<Window>) -> Self {
-        let texture_creator = inner.texture_creator();
-        let text_renderer = TextRenderer::new(inner.draw_color(), Color::RGBA(0, 0, 0, 0));
-        Self {
-            inner,
-            texture_creator,
-            text_renderer,
-        }
     }
 }
 
@@ -75,9 +78,22 @@ impl<T: RenderTarget, U> Canvas<T, U> {
 
 pub fn set_draw_color<C: Into<Color>>(&mut self, color: C) {
     let color = color.into();
-    self.text_renderer.fg_color = color;
+    if self.synced_colors {
+        self.text_renderer.fg_color = color;
+    }
     self.inner.set_draw_color(color)
 }
+        
+        pub fn set_text_color<C>(&mut self, color: C)
+        where C: Into<Option<Color>> {
+            self.synced_colors = if let Some(color) = color.into() {
+                self.text_renderer.fg_color = color;
+                false
+            } else {
+                self.text_renderer.fg_color = self.inner.draw_color();
+                true
+            };
+        }
 
     pub fn draw_text<P: Into<Point>>(&mut self, text: &str, pos: P) -> Result<Texture, String> {
         let pos = pos.into();
