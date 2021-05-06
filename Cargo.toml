@@ -11,6 +11,9 @@ homepage = "https://github.com/mcb2003/simple-game-engine-rs#readme"
 license = "MIT"
 edition = "2018"
 
+[features]
+bundled_sdl = ["sdl2/bundled"]
+
 [dependencies]
 fnv = "1.0.7"
 sdl2 = "0.34.4"

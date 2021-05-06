@@ -5,9 +5,9 @@
 //! games. Right now, it's a thin wrapper around [SDL2](https://www.libsdl.org) (using the [sdl2
 //! crate](https://crates.io/crates/sdl2)) for visuals.
 //! # Features
-//! * **Very simple to use:** Just implement the [`Application trait][sge::Application] on a type of your choice, then pass an instance of this type to [Engine::new()][Engine::new].
+//! * **Very simple to use:** Just implement the [`Application` trait][Application] on a type of your choice, then pass an instance of this type to [`Engine::new`].
 //! * **Powerful:** Anything you can do with sdl2 from Rust, you can do with this library, and we provide thin abstractions over some of the more convoluted sdl2 interfaces.
-//! * **Built-in text rendering:** No need to find a TTF font and distribute it with your application, just call the [Canvas::draw_text()][Canvas::draw_text] method.
+//! * **Built-in text rendering:** No need to find a TTF font and distribute it with your application, just call the [`Canvas::draw_text`][canvas::Canvas::draw_text] method.
 //! # Example
 //! The simplest SGE program looks like this:
 //! ```no_run
