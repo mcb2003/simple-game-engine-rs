@@ -1,3 +1,13 @@
+//! A minimal game engine that's really easy to get started with.
+//!
+//!  This project aims to create a minimal, yet usable, game engine. It is heavily inspired by [the Pixel Game Engine](https://github.com/OneLoneCoder/olcPixelGameEngine),
+//! with the goal of creating something that abstracts away the complexities of creating graphical, interactive apps and
+//! games. Right now, it's a thin wrapper around [SDL2](https://www.libsdl.org) (using the [sdl2
+//! crate](https://crates.io/crates/sdl2)) for visuals.
+//! # Features
+//! * **Very simple to use:** Just implement the [`Application trait][sge::Application] on a type of your choice, then pass an instance of this type to [Engine::new()][Engine::new].
+//! * **Powerful:** Anything you can do with sdl2 from Rust, you can do with this library, and we provide thin abstractions over some of the more convoluted sdl2 interfaces.
+//! * **Built-in text rendering:** No need to find a TTF font and distribute it with your application, just call the [Canvas::draw_text()][Canvas::draw_text] method.
 //! # Example
 //! The simplest SGE program looks like this:
 //! ```no_run
@@ -35,12 +45,14 @@
 //!         640,        // Window width
 //!         480,        // Window height
 //!     )?;
-//!     engine.start(true)
+//!     engine.start(true) // `true` starts the app with vsync enabled
 //! }
 //! ```
 //! `on_create` and `on_update` are optional, but their default implementation does nothing, so
 //! you'll probably want to define some logic for at least `on_update`, which is called for every
 //! frame.
+
+#![warn(missing_docs)]
 
 mod engine;
 pub use engine::Engine;
