@@ -26,6 +26,17 @@ impl<'a> Engine<'a> {
     ///* `title`: Title of the window.
     /// * `width`: Width (in pixels) of the window.
     /// * `height`: Height (in pixels) of the window.
+    /// # Example
+    /// ```
+    /// # struct App;
+    /// # impl simple_game_engine::Application for App {}
+    /// use simple_game_engine::Engine;
+    /// # fn main() -> Result<(), String> {
+    /// let mut app = App {}; // Some `Application` implementation
+    /// let engine = Engine::new(&mut app, "Window Title", 640, 480)?;
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn new(
         app: &'a mut dyn Application,
         title: &'a str,
@@ -45,6 +56,18 @@ impl<'a> Engine<'a> {
     /// # Parameters
     /// * `present_vsync`: Whether to limit the frame rate of the application to the frame rate of
     ///   the display.
+    /// # Example
+    /// ```no_run
+    /// # struct App;
+    /// # impl simple_game_engine::Application for App {}
+    /// use simple_game_engine::Engine;
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let mut app = App {}; // Some `Application` implementation
+    /// let mut engine = Engine::new(&mut app, "Window Title", 640, 480)?;
+    /// engine.start(true)?; // Starts with vsync enabled
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn start(&mut self, present_vsync: bool) -> Result<(), Box<dyn Error>> {
         let video = self.ctx.video()?;
         let timer = self.ctx.timer()?;
@@ -112,7 +135,7 @@ impl<'a> Engine<'a> {
                     _ => {}
                 }
             }
-            // Refresh the keyboard state
+            // Refresh the input state
             input
                 .keyboard
                 .update(event_pump.keyboard_state().scancodes());

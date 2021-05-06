@@ -1,4 +1,4 @@
-//! Provides the `Canvas` struct, which allows the screen to be manipulated, such as by drawing
+//! Provides the [`Canvas`] struct, which allows the screen to be manipulated, such as by drawing
 //! points, lines, rectangles, text, or textures to it.
 
 use std::ops::{Deref, DerefMut};
@@ -12,17 +12,17 @@ use sdl2::{
 };
 use sdl2_unifont::renderer::SurfaceRenderer as TextRenderer;
 
-/// A `Canvas` that internally renders to a `Surface`
+/// A [`Canvas`] that internally renders to a [`Surface`][sdl2::surface::Surface].
 pub type SurfaceCanvas<'a> = Canvas<Surface<'a>, SurfaceContext<'a>>;
-/// A `Canvas` that renders to a `Window` on the screen.
+/// A [`Canvas`] that renders to a [`Window`][Window] on the screen.
 pub type WindowCanvas = Canvas<Window, WindowContext>;
 
 /// This struct allows you to draw to the screen in various ways. It is a wrapper around:
-/// * An sdl2 `Canvas`, which allows you to draw points, lines, rectangles, etc, and to "blit"
+/// * An [sdl2 `Canvas`][SdlCanvas], which allows you to draw points, lines, rectangles, etc, and to "blit"
 ///   textures and surfaces onto the screen.
-/// * An sdl2 `TextureCreator`, which is linked to the sdl2 `Canvas`, for creating textures.
-/// * An sdl2-unifont `SurfaceRenderer` for rendering text to a surface.
-/// This struct implements `Deref` and `DerefMut` for the sdl2 `Canvas`, so you can call any of the
+/// * An [sdl2 `TextureCreator`][TextureCreator], which is linked to the sdl2 `Canvas`, for creating textures.
+/// * An [sdl2-unifont `SurfaceRenderer`][TextRenderer] for rendering text to a surface.
+/// This struct implements [`Deref`][std::ops::Deref] and [`DerefMut`][std::ops::DerefMut] for the sdl2 `Canvas`, so you can call any of the
 /// normal drawing routines via deref coersion.
 pub struct Canvas<T: RenderTarget, U> {
     inner: SdlCanvas<T>,
@@ -32,8 +32,8 @@ pub struct Canvas<T: RenderTarget, U> {
 }
 
 impl WindowCanvas {
-    /// Create a new `Canvas` from the specified sdl2 `WindowCanvas` that draws to a windows on the
-    /// screen.
+    /// Create a new `Canvas` from the specified sdl2 `WindowCanvas` that draws to a window on the
+    /// screen
     pub fn new(inner: SdlCanvas<Window>) -> Self {
         let texture_creator = inner.texture_creator();
         let text_renderer = TextRenderer::new(inner.draw_color(), Color::RGBA(0, 0, 0, 0));
@@ -60,8 +60,12 @@ impl<'a> SurfaceCanvas<'a> {
         }
     }
 
-    /// Draw the specified text to a point on the screen. Returns a `Surface` representing the
+    /// Draw the specified text to a point on the screen. Returns a
+    /// [`Surface`][Surface] representing the
     /// rendered text, or a `String` indicating an error from sdl.
+    ///
+    /// This is a `Canvas<Surface>` specific alternative to [`draw_text`][Self::draw_text], which internally creates
+    /// a texture for the rendered text.
     pub fn draw_text_surface<P: Into<Point>>(
         &mut self,
         text: &str,
@@ -78,22 +82,22 @@ impl<'a> SurfaceCanvas<'a> {
 }
 
 impl<T: RenderTarget, U> Canvas<T, U> {
-    /// Returns an immutable reference to the `TextureCreator` associated with this canvas.
+    /// Returns an immutable reference to the [`TextureCreator`][TextureCreator] associated with this canvas.
     pub fn texture_creator(&self) -> &TextureCreator<U> {
         &self.texture_creator
     }
 
-    /// Returns a mutable reference to the `TextureCreator` associated with this canvas.
+    /// Returns a mutable reference to the [`TextureCreator`][TextureCreator] associated with this canvas.
     pub fn texture_creator_mut(&mut self) -> &mut TextureCreator<U> {
         &mut self.texture_creator
     }
 
-    /// Returns an immutable reference to the sdl2-unifont `SurfaceRenderer` for text rendering, associated with this canvas.
+    /// Returns an immutable reference to the [sdl2-unifont `SurfaceRenderer`][TextRenderer] for text rendering, associated with this canvas.
     pub fn text_renderer(&self) -> &TextRenderer {
         &self.text_renderer
     }
 
-    /// Returns a mutable reference to the sdl2-unifont `SurfaceRenderer` for text rendering, associated with this canvas.
+    /// Returns a mutable reference to the [sdl2-unifont `SurfaceRenderer`][TextRenderer] for text rendering, associated with this canvas.
     pub fn text_renderer_mut(&mut self) -> &mut TextRenderer {
         &mut self.text_renderer
     }
@@ -121,7 +125,7 @@ pub fn set_draw_color<C: Into<Color>>(&mut self, color: C) {
             };
         }
 
-    /// Draw the specified text to a point on the screen. Returns a `Texture` representing the
+    /// Draw the specified text to a point on the screen. Returns a [`Texture`] representing the
     /// rendered text, or a `String` indicating an error from sdl.
     pub fn draw_text<P: Into<Point>>(&mut self, text: &str, pos: P) -> Result<Texture, String> {
         let pos = pos.into();

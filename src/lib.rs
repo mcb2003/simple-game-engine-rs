@@ -67,7 +67,7 @@ pub use sdl2::{
     rect::{Point, Rect},
 };
 
-/// The return type of `Application::on_update()`
+/// The return type of [`Application::on_create`] and [`Application::on_update`].
 pub type ApplicationResult = Result<bool, Box<dyn Error>>;
 
 /// An application using this framework.
