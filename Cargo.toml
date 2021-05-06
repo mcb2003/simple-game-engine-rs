@@ -13,6 +13,7 @@ edition = "2018"
 
 [features]
 bundled_sdl = ["sdl2/bundled"]
+static_sdl = ["sdl2/static-link"]
 
 [dependencies]
 fnv = "1.0.7"
