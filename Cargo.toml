@@ -14,4 +14,4 @@ edition = "2018"
 [dependencies]
 fnv = "1.0.7"
 sdl2 = "0.34.4"
-sdl2-unifont = { path = "../third-party/sdl2-unifont" }
+sdl2-unifont = "1.0.2"
