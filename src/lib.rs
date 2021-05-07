@@ -14,7 +14,7 @@
 //! enabled if this crate is built with the "unifont" cargo feature.
 //! ```toml
 //! [dependencies.simple-game-engine]
-//! version = "0.8.1"
+//! version = "0.8.2"
 //! features = ["unifont"]
 //! ```
 //! If you'd like to render text without using this font, consider checking out the [SDL2 TTF module][sdl2-ttf].

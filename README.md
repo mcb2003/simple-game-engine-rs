@@ -30,7 +30,7 @@ enabled if this crate is built with the "unifont" cargo feature.
 
 ```toml
 [dependencies.simple-game-engine]
-version = "0.8.1"
+version = "0.8.2"
 features = ["unifont"]
 ```
 
@@ -46,7 +46,7 @@ Add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-simple-game-engine = "0.8.1"
+simple-game-engine = "0.8.2"
 ```
 
 This crate depends on [sdl2][sdl2], which can be built and linked in several ways:
