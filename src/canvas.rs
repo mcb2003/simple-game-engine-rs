@@ -4,6 +4,7 @@
 use std::ops::{Deref, DerefMut};
 
 use sdl2::{
+    rect::Point,
     render::{Canvas as SdlCanvas, RenderTarget, TextureCreator},
     surface::{Surface, SurfaceContext},
     video::{Window, WindowContext},
@@ -11,7 +12,6 @@ use sdl2::{
 #[cfg(feature = "unifont")]
 use sdl2::{
     pixels::Color,
-    rect::Point,
     render::Texture,
 };
 #[cfg(feature = "unifont")]
@@ -156,6 +156,44 @@ pub fn set_draw_color<C: Into<Color>>(&mut self, color: C) {
         self.inner.copy(&texture, None, rect)?;
         Ok(texture)
     }
+
+fn draw_circle_points(&mut self, center: Point, point: Point) -> Result<(), String> {
+    let points = &[
+                            Point::new(center.x() + point.x(), center.y() + point.y()),
+	Point::new(center.x() - point.x(), center.y() + point.y()),
+	Point::new(center.x() + point.x(), center.y() - point.y()),
+	Point::new(center.x() - point.x(), center.y() - point.y()),
+	Point::new(center.x() + point.y(), center.y() + point.x()),
+	Point::new(center.x() - point.y(), center.y() + point.x()),
+	Point::new(center.x() + point.y(), center.y() - point.x()),
+	Point::new(center.x() - point.y(), center.y() - point.x()),
+    ];
+    self.inner.draw_points(points.as_ref())
+}
+
+/// Draws a circle using Bresenham's algorithm, with the given center and radius.
+pub fn draw_circle<P>(&mut self, center: P, radius: i32) -> Result<(), String>
+where
+P: Into<Point>{
+    let center = center.into();
+	let mut current = Point::new(0, radius);
+	let mut d = 3 - 2 * radius;
+	self.draw_circle_points(center, current)?;
+	while current.y() >= current.x() {
+		// for each pixel we will draw all eight pixels
+		current = current.offset(1, 0);
+
+		// check for decision parameter and correspondingly update d, x, y
+		if d > 0 {
+			current = current.offset(0, -1);
+			d += 4 * (current.x() - current.y()) + 10;
+		} else {
+			d += 4 * current.x() + 6;
+		self.draw_circle_points(center, current)?;
+	}
+}
+Ok(())
+}
 }
 
 impl<T: RenderTarget, U> Deref for Canvas<T, U> {
