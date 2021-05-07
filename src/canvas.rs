@@ -4,12 +4,17 @@
 use std::ops::{Deref, DerefMut};
 
 use sdl2::{
-    pixels::Color,
-    rect::Point,
-    render::{Canvas as SdlCanvas, RenderTarget, Texture, TextureCreator},
+    render::{Canvas as SdlCanvas, RenderTarget, TextureCreator},
     surface::{Surface, SurfaceContext},
     video::{Window, WindowContext},
 };
+#[cfg(feature = "unifont")]
+use sdl2::{
+    pixels::Color,
+    rect::Point,
+    render::Texture,
+};
+#[cfg(feature = "unifont")]
 use sdl2_unifont::renderer::SurfaceRenderer as TextRenderer;
 
 /// A [`Canvas`] that internally renders to a [`Surface`][sdl2::surface::Surface].
@@ -27,7 +32,9 @@ pub type WindowCanvas = Canvas<Window, WindowContext>;
 pub struct Canvas<T: RenderTarget, U> {
     inner: SdlCanvas<T>,
     texture_creator: TextureCreator<U>,
+#[cfg(feature = "unifont")]
     text_renderer: TextRenderer,
+#[cfg(feature = "unifont")]
     synced_colors: bool,
 }
 
@@ -36,11 +43,14 @@ impl WindowCanvas {
     /// screen
     pub fn new(inner: SdlCanvas<Window>) -> Self {
         let texture_creator = inner.texture_creator();
+#[cfg(feature = "unifont")]
         let text_renderer = TextRenderer::new(inner.draw_color(), Color::RGBA(0, 0, 0, 0));
         Self {
             inner,
             texture_creator,
+#[cfg(feature = "unifont")]
             text_renderer,
+#[cfg(feature = "unifont")]
             synced_colors: true,
         }
     }
@@ -51,11 +61,14 @@ impl<'a> SurfaceCanvas<'a> {
     /// `Surface`.
     pub fn new(inner: SdlCanvas<Surface<'a>>) -> Self {
         let texture_creator = inner.texture_creator();
+#[cfg(feature = "unifont")]
         let text_renderer = TextRenderer::new(inner.draw_color(), Color::RGBA(0, 0, 0, 0));
         Self {
             inner,
             texture_creator,
+#[cfg(feature = "unifont")]
             text_renderer,
+#[cfg(feature = "unifont")]
             synced_colors: true,
         }
     }
@@ -66,6 +79,7 @@ impl<'a> SurfaceCanvas<'a> {
     ///
     /// This is a `Canvas<Surface>` specific alternative to [`draw_text`][Self::draw_text], which internally creates
     /// a texture for the rendered text.
+#[cfg(feature = "unifont")]
     pub fn draw_text_surface<P: Into<Point>>(
         &mut self,
         text: &str,
@@ -93,17 +107,20 @@ impl<T: RenderTarget, U> Canvas<T, U> {
     }
 
     /// Returns an immutable reference to the [sdl2-unifont `SurfaceRenderer`][TextRenderer] for text rendering, associated with this canvas.
+#[cfg(feature = "unifont")]
     pub fn text_renderer(&self) -> &TextRenderer {
         &self.text_renderer
     }
 
     /// Returns a mutable reference to the [sdl2-unifont `SurfaceRenderer`][TextRenderer] for text rendering, associated with this canvas.
+#[cfg(feature = "unifont")]
     pub fn text_renderer_mut(&mut self) -> &mut TextRenderer {
         &mut self.text_renderer
     }
 
     /// Set the draw color for the standard sdl2 `canvas` drawing routines. If colors are
     /// synchronised (I.E. `canvas.set_text_color(None)`), Also changes the default text color.
+#[cfg(feature = "unifont")]
 pub fn set_draw_color<C: Into<Color>>(&mut self, color: C) {
     let color = color.into();
     if self.synced_colors {
@@ -114,6 +131,7 @@ pub fn set_draw_color<C: Into<Color>>(&mut self, color: C) {
         
 /// If called with `Some(color)`, set the color used when rendering text. If called with `None`,
 /// resynchronises the drawing and text colors.
+#[cfg(feature = "unifont")]
         pub fn set_text_color<C>(&mut self, color: C)
         where C: Into<Option<Color>> {
             self.synced_colors = if let Some(color) = color.into() {
@@ -127,6 +145,7 @@ pub fn set_draw_color<C: Into<Color>>(&mut self, color: C) {
 
     /// Draw the specified text to a point on the screen. Returns a [`Texture`] representing the
     /// rendered text, or a `String` indicating an error from sdl.
+#[cfg(feature = "unifont")]
     pub fn draw_text<P: Into<Point>>(&mut self, text: &str, pos: P) -> Result<Texture, String> {
         let pos = pos.into();
         let surface = self.text_renderer.draw(text)?;
