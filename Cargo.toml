@@ -12,10 +12,11 @@ license = "MIT"
 edition = "2018"
 
 [features]
+unifont = ["sdl2-unifont"]
 bundled_sdl = ["sdl2/bundled"]
 static_sdl = ["sdl2/static-link"]
 
 [dependencies]
 fnv = "1.0.7"
 sdl2 = "0.34.4"
-sdl2-unifont = "1.0.2"
+sdl2-unifont = {version = "1.0.2", optional = true}
