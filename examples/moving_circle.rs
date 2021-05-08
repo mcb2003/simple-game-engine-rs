@@ -5,7 +5,7 @@ use simple_game_engine::{self as sge, prelude::*};
 const MOVEMENT_SPEED: f64 = 200.0;
 const SCREEN_WIDTH: u32 = 480;
 const SCREEN_HEIGHT: u32 = 360;
-const RECT_SIZE: u32 = 100;
+const CIRCLE_RADIUS: u32 = 50;
 
 struct App {
     x: f64,
@@ -14,7 +14,7 @@ struct App {
 
 impl App {
     pub fn new() -> Self {
-        Self { x: 10.0, y: 10.0 }
+        Self { x: 60.0, y: 60.0 }
     }
 }
 
@@ -30,29 +30,24 @@ impl sge::Application for App {
             self.y = (self.y - MOVEMENT_SPEED * elapsed_time).max(0.0);
         } else if input.keyboard.held(Scancode::Down) {
             self.y =
-                (self.y + MOVEMENT_SPEED * elapsed_time).min((SCREEN_HEIGHT - RECT_SIZE) as f64);
+                (self.y + MOVEMENT_SPEED * elapsed_time).min((SCREEN_HEIGHT - CIRCLE_RADIUS) as f64);
         }
         if input.keyboard.held(Scancode::Left) {
             self.x = (self.x - MOVEMENT_SPEED * elapsed_time).max(0.0);
         } else if input.keyboard.held(Scancode::Right) {
             self.x =
-                (self.x + MOVEMENT_SPEED * elapsed_time).min((SCREEN_WIDTH - RECT_SIZE) as f64);
+                (self.x + MOVEMENT_SPEED * elapsed_time).min((SCREEN_WIDTH - CIRCLE_RADIUS) as f64);
         }
         // Move the rectangle with the mouse
         if input.mouse.buttons.held(MouseButton::Left) {
             self.x = input.mouse.x as f64;
             self.y = input.mouse.y as f64;
         }
-        // Fill the screen
+        // Draw the screen
         canvas.set_draw_color(Color::BLACK);
         canvas.clear();
         canvas.set_draw_color(Color::GRAY);
-        canvas.fill_rect(Rect::new(
-            self.x as i32,
-            self.y as i32,
-            RECT_SIZE,
-            RECT_SIZE,
-        ))?;
+        canvas.fill_circle((self.x as i32, self.y as i32), CIRCLE_RADIUS as i32)?;
         Ok(true)
     }
 }
