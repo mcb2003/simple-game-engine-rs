@@ -20,3 +20,7 @@ static_sdl = ["sdl2/static-link"]
 fnv = "1.0.7"
 sdl2 = "0.34.4"
 sdl2-unifont = {version = "1.0.2", optional = true}
+
+[[example]]
+name = "hello_world"
+required-features = ["unifont"]
