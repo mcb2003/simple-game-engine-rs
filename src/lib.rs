@@ -121,7 +121,7 @@ pub trait Application<Canvas = WindowCanvas> {
 pub mod prelude {
     //! Commonly used types.
     pub use crate::{
-        input::{InputState, MouseButton, Scancode}, WindowCanvas,
-        Color, Point, Rect,
+        input::{InputState, MouseButton, Scancode},
+        Color, Point, Rect, WindowCanvas,
     };
 }
