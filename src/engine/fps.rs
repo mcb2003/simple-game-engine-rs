@@ -22,28 +22,33 @@ impl FpsCounter {
         }
     }
 
-    pub fn update(&mut self) -> f64 {
+    pub fn update(&mut self, calc_fps: bool) -> f64 {
         self.last = self.now;
         self.now = self.timer.performance_counter();
             // Note: I have no idea whether this actually works, so if anyone would like to confirm
             // or deny this, please do
             let elapsed_time = (self.now - self.last) as f64 / self.timer.performance_frequency() as f64;
+            if calc_fps {
             self.time_acc += elapsed_time;
             self.fps_acc += elapsed_time.recip();
             self.fps_count += 1;
+            }
             elapsed_time
     }
 
+    /// Only valid if [`update`](Self::update) is called with `calc_fps` set to true.
     #[inline]
     pub fn time_acc(&self) -> f64 {
         self.time_acc
     }
 
+    /// Only valid if [`update`](Self::update) is called with `calc_fps` set to true.
     #[inline]
     pub fn fps(&self) -> f64 {
 self.fps_acc / self.fps_count as f64
     }
 
+    /// Only valid if [`update`](Self::update) is called with `calc_fps` set to true.
     pub fn reset_average(&mut self) {
                 self.time_acc -= 1.0;
                 self.fps_acc = 0.0;

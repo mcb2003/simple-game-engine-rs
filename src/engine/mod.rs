@@ -19,6 +19,8 @@ pub struct Engine<'a> {
     title: &'a str,
     width: u32,
     height: u32,
+    /// Whether the FPS should be calculated and displayed in the titlebar of the window.
+    pub show_fps: bool,
     ctx: sdl2::Sdl,
 }
 
@@ -51,6 +53,7 @@ impl<'a> Engine<'a> {
             title,
             width,
             height,
+            show_fps: true,
             ctx: sdl2::init()?,
         })
     }
@@ -101,8 +104,8 @@ impl<'a> Engine<'a> {
         // These variables are used to determine the elapsed time between frames, to allow for
         // time-regulated things like animation and to calculate average frame rates
         loop {
-            let elapsed_time = fps_counter.update();
-            if fps_counter.time_acc() >= 1.0 {
+            let elapsed_time = fps_counter.update(self.show_fps);
+            if self.show_fps && fps_counter.time_acc() >= 1.0 {
                 let fps = fps_counter.fps();
                 let title = format!("{} ({} FPS)", self.title, fps.round() as u32);
                 // This fails silently on error
