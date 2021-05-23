@@ -1,6 +1,9 @@
 //! Contains the `Engine` type, which manages all resources to do with the game engine, and calls
 //! the functions defined in the `Application` trait.
 
+mod fps;
+use fps::FpsCounter;
+
 use std::error::Error;
 
 use sdl2::event::Event;
@@ -70,7 +73,7 @@ impl<'a> Engine<'a> {
     /// ```
     pub fn start(&mut self, present_vsync: bool) -> Result<(), Box<dyn Error>> {
         let video = self.ctx.video()?;
-        let timer = self.ctx.timer()?;
+        let mut fps_counter = FpsCounter::new(self.ctx.timer()?);
         let mut canvas = video
             .window(self.title, self.width, self.height)
             .position_centered()
@@ -97,28 +100,14 @@ impl<'a> Engine<'a> {
 
         // These variables are used to determine the elapsed time between frames, to allow for
         // time-regulated things like animation and to calculate average frame rates
-        let mut now = timer.performance_counter();
-        let mut time_acc = 0.0;
-        let mut fps_acc = 0.0;
-        let mut fps_counter = 0;
         loop {
-            // Calculate and display FPS
-            let last = now;
-            now = timer.performance_counter();
-            // Note: I have no idea whether this actually works, so if anyone would like to confirm
-            // or deny this, please do
-            let elapsed_time = (now - last) as f64 / timer.performance_frequency() as f64;
-            time_acc += elapsed_time;
-            fps_acc += 1.0 / elapsed_time;
-            fps_counter += 1;
-            if time_acc >= 1.0 {
-                let fps = fps_acc / fps_counter as f64;
+            let elapsed_time = fps_counter.update();
+            if fps_counter.time_acc() >= 1.0 {
+                let fps = fps_counter.fps();
                 let title = format!("{} ({} FPS)", self.title, fps.round() as u32);
                 // This fails silently on error
-                canvas.window_mut().set_title(title.as_str()).unwrap_or(());
-                time_acc -= 1.0;
-                fps_acc = 0.0;
-                fps_counter = 0;
+                canvas.window_mut().set_title(title.as_str()).ok();
+                fps_counter.reset_average();
             }
 
             // Process next frame and exit if `Ok(false)` is returned
