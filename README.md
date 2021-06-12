@@ -1,5 +1,8 @@
 # Simple Game Engine
 
+[![](https://badgen.net/crates/v/simple-game-engine)](https://crates.io/crates/simple-game-engine)
+[![](https://docs.rs/simple-game-engine/badge.svg)](https://docs.rs/simple-game-engine)
+
 This project aims to create a minimal, yet usable, game engine. It is heavily inspired by [the Pixel Game Engine][pge],
 with the goal of creating something that abstracts away the complexities of creating graphical, interactive apps and
 games. Right now, it's a thin wrapper around [SDL2][sdl2] (using the [sdl2
