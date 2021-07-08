@@ -6,7 +6,7 @@ use fps::FpsCounter;
 
 use std::error::Error;
 
-use sdl2::event::Event;
+use sdl2::event::{Event, EventType};
 
 use crate::{
     input::{InputState, KeyboardState, MouseState},
@@ -89,6 +89,10 @@ impl<'a> Engine<'a> {
         let mut canvas = WindowCanvas::new(canvas.build()?);
         // Event handling
         let mut event_pump = self.ctx.event_pump()?;
+        event_pump.disable_event(EventType::DropFile);
+event_pump.disable_event(EventType::DropText);
+event_pump.disable_event(EventType::DropBegin);
+event_pump.disable_event(EventType::DropComplete);
         // Input state
         let mut input = InputState {
             keyboard: KeyboardState::new(event_pump.keyboard_state().scancodes()),
